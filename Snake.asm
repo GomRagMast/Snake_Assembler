@@ -44,9 +44,9 @@ et4:
     jmp inicio      ;salta a inicio
               
 et3:
-    sub valorh,1    ;suma uno al valor horizontal
+    sub valorh,1    ;resta uno al valor horizontal
     mov al, valorh
-    cmp al, 80
+    cmp al, -1
     je fin
     call caracter   ;llama caracter para imprimir cambio
     jmp inicio      ;salta a inicio
@@ -60,9 +60,9 @@ et2:
     jmp inicio      ;salta a inicio
 
 et1:    
-    add valorh,1    ;resta uno al valor horizontal 
+    add valorh,1    ;suma uno al valor horizontal 
     mov al, valorh
-    cmp al, -1
+    cmp al, 80
     je fin
     call caracter   ;llama caracter para imprimir cambio
     jmp inicio      ;salta a inicio 
@@ -113,7 +113,7 @@ caracter:
 ret
 ;--------------------------------------------
 
-vh1 db 10
+vh1 db 0
 vh2 db 10
 vh3 db 10
 vv1 db 10
