@@ -4,7 +4,7 @@ org 100h
 
 mov ch, 32          ;Cambia el tipo de cursor
 mov ah, 1           ;
-int 10h             ;
+int 10h             ;  Prueba 
 call caracter
 
 inicio:   
