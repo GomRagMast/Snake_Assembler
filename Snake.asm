@@ -3,33 +3,33 @@
 org 100h
 
 mov ch, 32          ;Cambia el tipo de cursor
-mov ah, 1           ;
-int 10h             ;  Prueba 
-call caracter
+mov ah, 1           ;Parametro 
+int 10h             ;Interrupcion
+call caracter       ;Llama imprimir la pocision inicial de la serpiente
 
 inicio:   
     call actual     ;llama actualizar culebrita
     mov color, 10   ;cambia el color a verde para culebrita
     
-    mov ah, 0       ;
+    mov ah, 0       ;Parametro
     int 16h         ;interrupcion leer tecla  
     
-    mov al, vv1
-    mov valorv, al
-    mov al, vh1
-    mov valorh, al                                     
+    mov al, vv1     ;mueve la pocision vertical de la cabeza a al
+    mov valorv, al  ;mueve al a valor vertical
+    mov al, vh1     ;mueve la pocision horizontal de la cabeza a al
+    mov valorh, al  ;mueve al a valor horizontal
     
     cmp ah, 4Dh     ;comparar tecla flecha derecha
-    je et1 
+    je et1          ;salto a la etiqueta 1 si es igual
     cmp ah, 48h     ;comparar tecla flecha arriba
-    je et2
+    je et2          ;salto a la etiqueta 2 si es igual
     cmp ah, 4Bh     ;comparar tecla flecha izquierda
-    je et3
+    je et3          ;salto a la etiqueta 3 si es igual
     cmp ah, 50h     ;comparar tecla flecha abajo
-    je et4  
+    je et4          ;salto a la etiqueta 4 si es igual
     cmp ah, 1Ch     ;comparar tecla enter
-    je et5
-    jmp inicio
+    je et5          ;salto a la etiqueta 5 si es igual
+    jmp inicio      ;salto incodicional a inicio
     
 et5:
     mov al,5 
@@ -37,9 +37,9 @@ et5:
           
 et4:
     add valorv,1    ;suma uno al valor vertical 
-    mov al, valorv
-    cmp al, 25
-    je fin
+    mov al, valorv  ;mueve el nuevo valor a valor vertical
+    cmp al, 25      ;compara si la pocision es 25
+    je fin          ;termina si se cumple la condicion
     call caracter   ;llama caracter para imprimir cambio
     jmp inicio      ;salta a inicio
               
@@ -47,7 +47,7 @@ et3:
     sub valorh,1    ;resta uno al valor horizontal
     mov al, valorh
     cmp al, -1
-    je fin
+    je fin          ;termina si se cumple la condicion
     call caracter   ;llama caracter para imprimir cambio
     jmp inicio      ;salta a inicio
     
@@ -55,7 +55,7 @@ et2:
     sub valorv,1    ;resta uno al valor vertical
     mov al, valorv
     cmp al, -1
-    je fin
+    je fin          ;termina si se cumple la condicion
     call caracter   ;llama caracter para imprimir cambio
     jmp inicio      ;salta a inicio
 
@@ -63,7 +63,7 @@ et1:
     add valorh,1    ;suma uno al valor horizontal 
     mov al, valorh
     cmp al, 80
-    je fin
+    je fin          ;termina si se cumple la condicion
     call caracter   ;llama caracter para imprimir cambio
     jmp inicio      ;salta a inicio 
     
