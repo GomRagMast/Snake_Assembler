@@ -6,24 +6,22 @@ mov ch, 32          ;Cambia el tipo de cursor
 mov ah, 1           ;Parametro 
 int 10h             ;Interrupcion
 call obstaculo      ;llama un obstaculo 
-mov al, vv1         ;mueve la pocision vertical de la cabeza a al
-mov valorv, al      ;mueve al a valor vertical
-mov al, vh1         ;mueve la pocision horizontal de la cabeza a al
-mov valorh, al      ;mueve al a valor horizontal
-mov color, 10       ;cambia el color a verde para culebrita
-mov figura, 176
+call repint
 call caracter       ;Llama imprimir la pocision inicial de la serpiente
 
-inicio:   
+inicio: 
+    call atrapa     ;llama metodo para saber si comio  
     call actual     ;llama actualizar culebrita
     
     mov ah, 0       ;Parametro
     int 16h         ;interrupcion leer tecla  
+     
+    call repint
     
-    mov al, vv1     ;mueve la pocision vertical de la cabeza a al
-    mov valorv, al  ;mueve al a valor vertical
-    mov al, vh1     ;mueve la pocision horizontal de la cabeza a al
-    mov valorh, al  ;mueve al a valor horizontal
+    ;mov al, vv1     ;mueve la pocision vertical de la cabeza a al
+;    mov valorv, al  ;mueve al a valor vertical
+;    mov al, vh1     ;mueve la pocision horizontal de la cabeza a al
+;    mov valorh, al  ;mueve al a valor horizontal
     
     cmp ah, 4Dh     ;comparar tecla flecha derecha
     je et1          ;salto a la etiqueta 1 si es igual
@@ -74,7 +72,28 @@ et1:
     jmp inicio      ;salta a inicio 
     
 fin:
-ret 
+ret   
+;--------------------------------------------
+repint:
+    mov al, vv1         ;mueve la pocision vertical de la cabeza a al
+    mov valorv, al      ;mueve al a valor vertical
+    mov al, vh1         ;mueve la pocision horizontal de la cabeza a al
+    mov valorh, al      ;mueve al a valor horizontal
+    mov color, 10       ;cambia el color a verde para culebrita
+    mov figura, 176     ;indica la figura q tendra la serpiente
+ret
+;--------------------------------------------
+atrapa:  
+    mov al, valorv
+    cmp al, obsv
+    jne no 
+    mov al, valorh
+    cmp al, obsh
+    jne no        
+    add puntos,1 
+    call obstaculo      ;llama un obstaculo 
+ no:
+ret
 ;--------------------------------------------
 actual: 
    mov figura, 176
@@ -101,9 +120,10 @@ ret
 ;--------------------------------------------
 obstaculo: 
    mov figura, 15
-   mov limite, 16
+   mov limite, 15
    call aleatorio
    mov al, valor
+   add al, 1
    mov color, al
    mov limite, 25
    call aleatorio
@@ -152,10 +172,10 @@ ret
 
 vh1 db 0
 vh2 db 81
-vh3 db 81
+vh3 db 82
 vv1 db 10
 vv2 db 26
-vv3 db 26
+vv3 db 27
             
 figura db 176            
 valorv db 10
@@ -169,3 +189,4 @@ limite dw 0
 fila db 10
 columna db 0
 valor db 0
+puntos db 0
